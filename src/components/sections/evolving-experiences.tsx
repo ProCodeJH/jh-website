@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { SvgMorph } from "@/components/animations/svg-morph";
 
 export function EvolvingExperiences() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,10 +50,15 @@ export function EvolvingExperiences() {
 
   return (
     <section
+      id="evolving"
       ref={sectionRef}
-      className="section min-h-screen flex items-center bg-background transition-colors"
+      className="section min-h-screen flex items-center bg-background transition-colors relative overflow-hidden"
     >
-      <div className="container">
+      {/* anime.js SVG morph background */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-20 pointer-events-none">
+        <SvgMorph className="w-full h-full" />
+      </div>
+      <div className="container relative z-10">
         <h2 ref={textRef} className="text-display max-w-5xl">
           {words.map((word, i) => (
             <span key={i} className="word inline-block mr-[0.3em]">

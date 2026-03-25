@@ -5,6 +5,9 @@ import { SmoothScrollProvider } from "@/components/layout/smooth-scroll-provider
 import { CustomCursor } from "@/components/layout/custom-cursor";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { DotNavigation } from "@/components/layout/dot-navigation";
+import { PageTransition } from "@/components/layout/page-transition";
+import { ScrollProgress } from "@/components/animations/motion-primitives";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -39,9 +42,13 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <SmoothScrollProvider>
+            <ScrollProgress />
             <CustomCursor />
             <Navbar />
-            <main>{children}</main>
+            <DotNavigation />
+            <PageTransition>
+              <main>{children}</main>
+            </PageTransition>
             <Footer />
           </SmoothScrollProvider>
         </ThemeProvider>

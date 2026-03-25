@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import autoAnimate from "@formkit/auto-animate";
 import { TextReveal } from "@/components/animations/text-reveal";
 
 const services = [
@@ -62,6 +63,13 @@ const services = [
 export function Services() {
   const [activeService, setActiveService] = useState(services[0].id);
   const active = services.find((s) => s.id === activeService)!;
+  const detailsRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (detailsRef.current) {
+      autoAnimate(detailsRef.current);
+    }
+  }, []);
 
   return (
     <section id="services" className="section bg-background">
@@ -119,7 +127,7 @@ export function Services() {
               <p className="text-body text-muted-foreground mb-8">
                 {active.description}
               </p>
-              <ul className="grid grid-cols-2 gap-4">
+              <ul ref={detailsRef} className="grid grid-cols-2 gap-4">
                 {active.details.map((detail, i) => (
                   <motion.li
                     key={detail}

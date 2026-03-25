@@ -38,7 +38,7 @@ const differentiators = [
 
 export function WhatSetsUsApart() {
   return (
-    <section className="section bg-foreground text-background">
+    <section id="apart" className="section bg-foreground text-background">
       <div className="container">
         <div className="mb-16">
           <span className="text-caption uppercase tracking-[0.3em] mb-4 block opacity-60">
