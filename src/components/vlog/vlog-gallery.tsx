@@ -1,18 +1,30 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import { TextReveal } from "@/components/animations/text-reveal";
 import { SpotlightCard } from "@/components/animations/react-bits";
 import { InfiniteMarquee } from "@/components/animations/motion-primitives";
 
-const vlogs = [
+type Vlog = {
+  id: number;
+  title: string;
+  titleKo: string;
+  date: string;
+  duration: string;
+  thumbnail: string;
+  tags: string[];
+};
+
+const vlogs: Vlog[] = [
   {
     id: 1,
     title: "A Day at JH Studio",
     titleKo: "JH 스튜디오의 하루",
     date: "2026-03-18",
     duration: "8:42",
-    thumbnail: "#1a1a2e",
+    thumbnail:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop",
     tags: ["Daily", "Studio"],
   },
   {
@@ -21,7 +33,8 @@ const vlogs = [
     titleKo: "클라이언트 미팅 비하인드",
     date: "2026-03-12",
     duration: "12:15",
-    thumbnail: "#16213e",
+    thumbnail:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop",
     tags: ["Behind", "Process"],
   },
   {
@@ -30,7 +43,8 @@ const vlogs = [
     titleKo: "디자인 리뷰 현장",
     date: "2026-03-05",
     duration: "6:30",
-    thumbnail: "#0f3460",
+    thumbnail:
+      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&h=400&fit=crop",
     tags: ["Design", "Team"],
   },
   {
@@ -39,7 +53,8 @@ const vlogs = [
     titleKo: "새 작업 환경 세팅기",
     date: "2026-02-28",
     duration: "15:20",
-    thumbnail: "#533483",
+    thumbnail:
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&h=400&fit=crop",
     tags: ["Setup", "Gear"],
   },
   {
@@ -48,7 +63,8 @@ const vlogs = [
     titleKo: "야근 코딩 세션",
     date: "2026-02-20",
     duration: "10:05",
-    thumbnail: "#2c3333",
+    thumbnail:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop",
     tags: ["Coding", "Night"],
   },
   {
@@ -57,7 +73,8 @@ const vlogs = [
     titleKo: "팀 워크숍 & 브레인스토밍",
     date: "2026-02-15",
     duration: "9:48",
-    thumbnail: "#1a1a2e",
+    thumbnail:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop",
     tags: ["Team", "Creative"],
   },
 ];
@@ -97,20 +114,29 @@ export function VlogGallery() {
             >
               <SpotlightCard className="group rounded-2xl overflow-hidden border border-border bg-background cursor-pointer">
                 {/* Thumbnail */}
-                <div
-                  className="aspect-video relative overflow-hidden"
-                  style={{ backgroundColor: vlog.thumbnail }}
-                >
+                <div className="aspect-video relative overflow-hidden bg-muted">
+                  <Image
+                    src={vlog.thumbnail}
+                    alt={vlog.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+
+                  {/* Dark overlay on hover */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+
                   {/* Play button */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.div
                       whileHover={{ scale: 1.1 }}
-                      className="w-16 h-16 rounded-full bg-background/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="w-16 h-16 rounded-full bg-background/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg"
                     >
                       <svg
-                        className="w-6 h-6 ml-1"
+                        className="w-6 h-6 ml-1 text-foreground"
                         fill="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
                         <path d="M8 5v14l11-7z" />
                       </svg>

@@ -8,36 +8,36 @@ import { gsap } from "@/lib/gsap";
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [displayChildren, setDisplayChildren] = useState(children);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const isFirstLoad = useRef(true);
+  const prevPathname = useRef(pathname);
 
   useEffect(() => {
-    // barba.js style page transition using GSAP
-    if (isTransitioning && overlayRef.current) {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          setDisplayChildren(children);
-          // Reveal
-          gsap.to(overlayRef.current, {
-            yPercent: -100,
-            duration: 0.6,
-            ease: "power3.inOut",
-            onComplete: () => setIsTransitioning(false),
-          });
-        },
-      });
-
-      // Cover
-      tl.fromTo(
-        overlayRef.current,
-        { yPercent: 100 },
-        { yPercent: 0, duration: 0.6, ease: "power3.inOut" }
-      );
+    // Skip transition on first load
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
     }
-  }, [isTransitioning, children]);
 
-  useEffect(() => {
-    setIsTransitioning(true);
+    // Only trigger on actual route change
+    if (prevPathname.current === pathname) return;
+    prevPathname.current = pathname;
+
+    if (!overlayRef.current) return;
+
+    const overlay = overlayRef.current;
+
+    // barba.js style: slide up → hold → slide away
+    const tl = gsap.timeline();
+    tl.fromTo(
+      overlay,
+      { yPercent: 100 },
+      { yPercent: 0, duration: 0.5, ease: "power3.inOut" }
+    ).to(overlay, {
+      yPercent: -100,
+      duration: 0.5,
+      ease: "power3.inOut",
+      delay: 0.2,
+    });
   }, [pathname]);
 
   return (
@@ -60,10 +60,9 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
           key={pathname}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
         >
-          {displayChildren}
+          {children}
         </motion.div>
       </AnimatePresence>
     </>
