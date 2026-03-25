@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Journey", href: "#journey" },
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Partners", href: "#partners" },
-  { label: "Approach", href: "#approach" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Blog", href: "/blog" },
+  { label: "Utility", href: "/utility" },
+  { label: "Vlog", href: "/vlog" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export function Navbar() {
